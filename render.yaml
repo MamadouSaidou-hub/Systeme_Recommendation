@@ -1,0 +1,50 @@
+# render.yaml
+# ============================================================
+# Blueprint Render — déploiement des 3 services EduReco
+#
+# Commande : connecter ce repo sur render.com
+# Render détecte ce fichier et crée les 3 services
+# automatiquement.
+# ============================================================
+
+services:
+
+  # ── Service 1 : API Flask ─────────────────────────────
+  - type: web
+    name: edureco-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn api:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: SUPABASE_URL
+        sync: false        # à renseigner manuellement dans Render
+      - key: SUPABASE_KEY
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+  # ── Service 2 : Dashboard Dash ────────────────────────
+  - type: web
+    name: edureco-dashboard
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn dashboard:server --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: API_URL
+        sync: false        # URL de edureco-api une fois déployé
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+  # ── Service 3 : Admin Dash ────────────────────────────
+  - type: web
+    name: edureco-admin
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn admin:server --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: API_URL
+        sync: false        # URL de edureco-api une fois déployé
+      - key: PYTHON_VERSION
+        value: "3.11.0"
