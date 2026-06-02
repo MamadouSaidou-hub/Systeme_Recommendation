@@ -538,7 +538,7 @@ def page_modifier_profil(user):
                             dbc.Label("Domaine"),
                             dbc.Select(
                                 id="mod-domaine",
-                                value=user.get('dmaine', ''),
+                                value=user.get('domaine', ''),
                                 options=DOMAINE_OPTIONS
                             )
 
@@ -601,17 +601,6 @@ app.layout = dbc.Container([
     html.Div(id="contenu-principal", children=page_accueil()),
 
 ], fluid=True)
-
-
-
-
-
-
-
-
-
-
-
 
 # # Les call back
 
@@ -752,7 +741,7 @@ def soumettre_inscription(n, nom, prenom, email,
                 "objectif":      objectif or "emploi",
                 "langue":        langue   or "francais",
             },
-            timeout=10
+            timeout=30
         )
         data = rep.json()
 
@@ -827,7 +816,7 @@ def soumettre_connexion(n, email):
         rep = requests.post(
             f"{API_URL}/api/users/connexion",
             json={"email": email.strip().lower()},
-            timeout=10
+            timeout=30
         )
         data = rep.json()
 
