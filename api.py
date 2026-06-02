@@ -229,15 +229,14 @@ def get_recommendations(user_id):
     })
 
 
-
-
-
-
-
 # Démarrage du serveur
+# if __name__ == '__main__':
+#     print("API EduReco → http://127.0.0.1:5001")
+#     app.run(debug=True, port=5001)
+# for hugginface
 if __name__ == '__main__':
-    print("API EduReco → http://127.0.0.1:5001")
-    app.run(debug=True, port=5001)
+    port = int(os.getenv("PORT", 7860))
+    app.run(debug=False, host='0.0.0.0', port=port)
 
 
 
